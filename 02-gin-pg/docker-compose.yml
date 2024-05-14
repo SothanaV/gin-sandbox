@@ -1,5 +1,6 @@
 volumes:
     db: {}
+    cloudbeaver: {}
 
 services: 
     db:
@@ -9,6 +10,13 @@ services:
             - db:/var/lib/postgresql/data
         env_file:
             - .env
+    cloudbeaver:
+        container_name: ${PROJECT_NAME}-cloudbeaver
+        image: dbeaver/cloudbeaver:latest
+        ports:
+            - 8978:8978
+        volumes: 
+            - cloudbeaver:/opt/cloudbeaver/workspace   
     backend:
         container_name: ${PROJECT_NAME}-backend
         build: ./backend
@@ -17,4 +25,7 @@ services:
             - ./backend:/app
         ports:
           - 8080:8080
+        env_file:
+            - .env
+    
         
