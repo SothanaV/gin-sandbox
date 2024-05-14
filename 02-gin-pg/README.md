@@ -32,3 +32,8 @@ go get -u github.com/gin-gonic/gin
 ```
 air -c .air.toml
 ```
+
+- install postgres connnector
+```
+go get github.com/lib/pq
+```
