@@ -9,3 +9,12 @@ go mod init example/gin
 ```go
 go get -u github.com/gin-gonic/gin
 ```
+- run server
+```
+go run main.go
+```
+
+- request api
+    * open `basic.http`
+    * run click `Send Request`
+    <img src='./_docs/http.png'> </img>
