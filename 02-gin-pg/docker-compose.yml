@@ -1,0 +1,20 @@
+volumes:
+    db: {}
+
+services: 
+    db:
+        container_name: ${PROJECT_NAME}-db
+        image: postgres:16.3-alpine
+        volumes:
+            - db:/var/lib/postgresql/data
+        env_file:
+            - .env
+    backend:
+        container_name: ${PROJECT_NAME}-backend
+        build: ./backend
+        command: ["air", "-c", ".air.toml"]
+        volumes:
+            - ./backend:/app
+        ports:
+          - 8080:8080
+        
