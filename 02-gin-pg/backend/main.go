@@ -41,6 +41,27 @@ func addUser(ctx *gin.Context) {
 
 }
 
+func getUser(ctx *gin.Context) {
+	rows, err := db.Db.Query("SELECT * FROM users;")
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(400, "Couldn't create the new user.")
+	}
+	// fmt.Println(rows)
+	defer rows.Close()
+	users := []User{}
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.Username, &user.Password)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		users = append(users, user)
+	}
+	ctx.AbortWithStatusJSON(200, users)
+}
+
 func main() {
 	router := gin.Default()
 
@@ -48,5 +69,6 @@ func main() {
 	db.ConnectDatabase()
 	db.CreateTableUser()
 	router.POST("/user", addUser)
+	router.GET("/user", getUser)
 	router.Run()
 }
